@@ -1,0 +1,69 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/devoteamLogo.png" alt="logo">
+        <span>Devoteam</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="" class="nav-link" routerLink="/admin"
+        *ngIf="userService.roleMatch(['Admin'])">Admin dashboard</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="" class="nav-link" routerLink="/user"
+        *ngIf="userService.roleMatch(['pmo'])">Pmo dashboard</a>
+      </li>
+
+
+    <button #topbarmenubutton
+    class="p-link layout-topbar-menu-button layout-topbar-button"
+    (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu"
+     [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button" (click)="op.toggle($event)">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button>
+        <div class="flex flex-wrap gap-2">
+
+            <button pButton pRipple type="button" *ngIf="isLoggedIn()" (click)="logout()" label="Sign out" class="p-button-outlined p-button-secondary"></button>
+        </div>
+    </div>
+</div>
+
+<p-overlayPanel #op [style]="{'width': '450px'}" [showCloseIcon]="true">
+  <ng-template pTemplate="content">
+     <div class="card">
+      <div class ="card-header font-medium text-primary" >
+        User Profile
+      </div>
+      <div class="card-body">
+      <p-avatar [label]="user.userName.substr(0,1).toUpperCase()" styleClass="mr-2" size="large"
+      [style]="{ 'background-color': '#2196F3', color: '#ffffff','margin-left':'280px' }"
+       shape="circle"></p-avatar>
+     <div class="font-medium no-underline text-muted"><strong>Firstname :</strong> {{user.userFirstName}} </div>
+     <br>
+     <div class="font-medium no-underline text-muted"><strong>Lastname :</strong> {{user.userLastName}} </div>
+     <br>
+     <div class="font-medium no-underline text-muted"><strong>Username :</strong> {{user.userName}} </div>
+     <br>
+     <div class="font-medium no-underline text-muted"><strong>UserEmail :</strong> {{user.userEmail}} </div>
+     <br>
+     <div class="font-medium no-underline text-muted"><strong>UserRole :</strong> {{user.role[0].roleName}} </div>
+     </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

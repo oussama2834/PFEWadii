@@ -1,0 +1,146 @@
+
+<div class="grid grid-nogutter surface-section text-800">
+    <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
+        <section>
+            <!-- <span class="block text-6xl font-bold mb-1">{{project.projectName}}</span>
+            <div class="text-6xl text-primary font-bold mb-3">visitors deserve to see</div>
+            <p class="mt-0 mb-4 text-700 line-height-3">{{project.projectDescription}}</p> -->
+            <div class="card" style="width: 1050px;">
+                <span class="text-4xl text-primary font-bold mb-3">
+                  {{project.projectName}}
+                  <i class="pi pi-calendar mr-1" style="font-size: 1.5rem ;margin-left: 445px;"></i>
+                  <span class="text-muted" style="font-size: 13px;">{{project.startDate |date}}</span>
+                  <i class="pi pi-calendar mr-1"  style="font-size: 1.5rem ;margin-left: 30px;"></i>
+                  <span class="text-muted" style="font-size: 13px;">{{project.endDate |date}}</span>
+
+                </span>
+
+                <p class="mt-0 mb-4 text-700 line-height-3 text-muted">
+                  {{project.projectDescription}}</p>
+                  <span  class=" text-1xl font-bold text-danger" *ngIf="project.user?.userName">
+                    Project Manager : {{project.user?.userName}}
+                   </span>
+            </div>
+            <div class="card" style="width: 1050px;">
+             <span class="text-3xl  font-bold text-muted">
+              Steps
+
+
+             </span>
+             <!-- <span *ngFor="let u of project.users" class="text-right text-1xl font-bold text-primary">
+              Project Manager : {{u.userName}}
+             </span> -->
+
+             <hr>
+              <div class="card-body">
+                <p *ngIf="project.steps.length == 0">
+                  no steps found.
+                 </p>
+
+              <p-table [value]="project.steps"  *ngIf="project.steps.length != 0"
+              [scrollable]="true" [tableStyle]="{'min-width':'73rem'}">
+                  <ng-template pTemplate="header">
+                      <tr>
+
+
+                          <th>Name</th>
+                          <th>Start Date</th>
+                          <th >End Date</th>
+
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-step>
+                      <tr>
+
+
+                          <td>
+                            <a   href="javascript:void(0)" class="mr-1"
+                            (click)="changeIcon(step)">
+                            <i
+                            [ngClass]="changedIcon ? 'pi pi-angle-down' :'pi pi-angle-right'"
+
+                            style="color: slateblue"></i></a>
+                            {{ step.name }}
+
+                          </td>
+                          <td>{{ step.startDate | date }}</td>
+                          <td >{{ step.endDate |date }}
+
+
+                          </td>
+
+
+
+                      </tr>
+
+                      <tr *ngIf="tableopened && currentStep == step ">
+                       <td colspan="4">
+                        <p *ngIf="step.tasks.length ==0">No tasks found.</p>
+                        <div *ngIf="step.tasks.length !=0" class="card" style="width: 930px;">
+                          <p-table [value]="step.tasks"
+                          [tableStyle]="{ 'min-width': '50rem' }">
+                              <ng-template pTemplate="header">
+                                  <tr>
+                                      <th>Task description</th>
+                                      <th>Due date</th>
+                                      <th>Task Progress</th>
+
+
+                                  </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-task let-i="index">
+                                  <tr>
+
+                                      <td>{{ task.taskDescription }}</td>
+                                      <td>{{ task.dueDate | date: 'MM/dd/yyyy' }}</td>
+                                      <td [ngClass]="{'alert alert-danger':task.taskProgress == 'TODO',
+                                      'alert alert-success':task.taskProgress == 'DONE',
+                                      'alert alert-warning':task.taskProgress == 'IN_PROGRESS'
+                                    }">
+                                        {{task.taskProgress}}</td>
+
+                                      <!-- <td><span class="alert alert-success"></span></td> -->
+                                      <td>
+
+
+
+
+
+                <!--
+
+
+                                       <button class="btn btn-primary
+                                       mb-1" style="height: 41px; width: 70px;"
+                                         type="submit" label="A" >Add
+                                       </button> -->
+
+                                      </td>
+
+                                  </tr>
+
+                              </ng-template>
+
+                          </p-table>
+                        </div>
+                       </td>
+                      </tr>
+                  </ng-template>
+              </p-table>
+            </div>
+          </div>
+
+            <!-- <button pButton pRipple label="Learn More" type="button"
+             class="mr-3 p-button-raised"></button>
+            <button pButton pRipple label="Live Demo"
+            type="button" class="p-button-outlined"></button> -->
+
+
+          </section>
+
+    </div>
+    <!-- <div class="col-12 md:col-6 overflow-hidden">
+        <img src="assets/demo/images/blocks/hero/"
+         alt="Image" class="md:ml-auto block md:h-full"
+         style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)">
+    </div> -->
+</div>

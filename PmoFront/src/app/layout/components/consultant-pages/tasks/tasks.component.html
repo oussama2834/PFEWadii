@@ -1,0 +1,96 @@
+<div class="card" >
+  <p-table
+      #dt1
+      [value]="tasks"
+      dataKey="id"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+
+      [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+  >
+      <ng-template pTemplate="caption">
+          <div class="flex">
+              <button pButton label="Clear" class="p-button-outlined"
+              icon="pi pi-filter-slash"
+              (click)="clear(dt1)"></button>
+
+              <span class="p-input-icon-left ml-auto">
+
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text"
+                   placeholder="Search by project name" [(ngModel)]="searchByname" />
+                   <!-- <button  pButton pRipple label="Add project"
+                    icon="pi pi-plus" class="p-button-primary ml-2"
+                   (click)="openNew()"></button> -->
+                   <!-- (input)="dt1.filterGlobal($event.target.value, 'contains')" -->
+              </span>
+
+          </div>
+      </ng-template>
+
+      <ng-template pTemplate="header" >
+          <tr >
+            <th>Task description</th>
+            <th>Due date</th>
+            <th>Task Progress</th>
+
+            <!-- <th>Step</th> -->
+            <!-- <th>Projet</th> -->
+
+
+
+            </tr>
+</ng-template>
+            <ng-template pTemplate="emptymessage" *ngIf="tasks.length == 0 ">
+                <tr>
+                    <td colspan="7">No tasks found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-task let-i="index">
+
+              <tr *ngIf="task.taskDescription.
+              toUpperCase().includes(searchByname.toUpperCase())">
+
+
+
+                  <td>{{ task.taskDescription }}</td>
+                  <td>{{ task.dueDate | date: 'MM/dd/yyyy' }}</td>
+                  <td>
+                    <div class="dropdown action-label">
+                      <a class=" btn-sm  btn-rounded dropdown-toggle" style="border-radius: 20px;"
+                      [ngClass]="{'btn btn-danger':task.taskProgress == 'TODO',
+                      'btn btn-success':task.taskProgress == 'DONE',
+                      'btn btn-warning':task.taskProgress == 'IN_PROGRESS'
+                    }"
+                      href="javascript:void(0)" data-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-dot-circle text-white"></i> {{task.taskProgress}}
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right"
+                       >
+                      <a  (click)="changeProgressType(task.taskId,item)"   *ngFor="let item of items"
+
+                      class="dropdown-item" href="javascript:void(0)"
+                    >
+                        <i class="far fa-dot-circle text-danger"></i> {{item}}</a>
+                      </div>
+                      </div>
+                  </td>
+
+                  <!-- <td>
+                    {{task.step.name}}
+
+            </td> -->
+            <!-- <td>
+              {{task.step.project?.projectId}}
+            </td> -->
+            </tr>
+            </ng-template>
+
+
+
+
+  </p-table>
+  </div>

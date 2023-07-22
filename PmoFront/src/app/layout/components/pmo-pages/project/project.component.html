@@ -1,0 +1,363 @@
+<!-- <div *ngFor="let project of projects">
+    <h2><a [routerLink]="['/project', project.projectId]">{{ project.projectName }}</a></h2>
+    <button (click)="openAssignModal(project.projectId)">Assign</button>
+    <select [(ngModel)]="selectedUser" *ngIf="assignModalOpened && assignProject === project.projectId">
+        <option *ngFor="let user of users" [value]="user.userName">{{user.userFirstName}} {{user.userLastName}}</option>
+    </select>
+    <button (click)="assignProjectToUser(selectedUser.userName, project.projectId)"
+        *ngIf="assignModalOpened && assignProject === project.projectId">Confirm</button>
+    <h3>{{ project.startDate}}</h3>
+    <h3>{{ project.endDate}}</h3>
+
+    <button (click)="addStepClicked(project)">Add Step</button>
+
+    <div *ngIf="projectBeingEdited === project.projectId">
+        <form (ngSubmit)="onSubmitStepForm()">
+            <input [(ngModel)]="step.name" name="name" placeholder="Step Name" required />
+            <input [(ngModel)]="step.startDate" name="startDate" type="date" required />
+            <input [(ngModel)]="step.endDate" name="endDate" type="date" required />
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div *ngFor="let step of project.steps">
+        <p>{{ step.name }}</p>
+        <p>{{ step.startDate }}</p>
+        <p>{{ step.endDate }}</p>
+    </div>
+</div>
+<br> -->
+<!-- <div class="card" *ngFor="let project of projects">
+<p-card >
+    <p-header>
+        <h2><a [routerLink]="['/project', project.projectId]">{{ project.projectName }}</a>({{ project.startDate}}-
+           {{ project.endDate}})</h2>
+        <p-button label="Assign" (click)="openAssignModal(project.projectId)"></p-button>
+    </p-header>
+
+
+
+    <p-dropdown *ngIf="assignModalOpened && assignProject === project.projectId"
+        [(ngModel)]="selectedUser"
+        [options]="users"
+        optionLabel="userFirstName"
+        placeholder="Select a User">
+    </p-dropdown>
+
+    <p-button *ngIf="assignModalOpened && assignProject === project.projectId" label="Confirm" (onClick)="assignProjectToUser(selectedUser.userName, project.projectId)" autoFocus></p-button>
+
+
+    <p-button label="Add Step" (click)="addStepClicked(project)"></p-button>
+
+    <div *ngIf="projectBeingEdited === project.projectId">
+        <form (ngSubmit)="onSubmitStepForm()">
+            <input pInputText [(ngModel)]="step.name" name="name" placeholder="Step Name" required />
+
+
+            <p-calendar [(ngModel)]="step.startDate" name="startDate" [showIcon]="true"></p-calendar>
+            <p-calendar [(ngModel)]="step.endDate" name="endDate" [showIcon]="true"></p-calendar>
+
+            <p-button type="submit" label="Add"></p-button>
+        </form>
+    </div>
+
+
+    <p-button label="Steps List" (onClick)="toggleStepsView(project.projectId)"></p-button>
+
+    <div *ngIf="isStepsViewed(project.projectId)">
+        <div *ngFor="let step of project.steps">
+            <p>{{ step.name }}</p>
+            <p>{{ step.startDate }}</p>
+            <p>{{ step.endDate }}</p>
+        </div>
+    </div>
+</p-card>
+</div>
+<br> -->
+
+
+<div class="card" >
+<p-table
+    #dt1
+    [value]="projects"
+    dataKey="id"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+>
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+            (click)="clear(dt1)"></button>
+
+            <span class="p-input-icon-left ml-auto">
+
+                <i class="pi pi-search"></i>
+                <input pInputText type="text"
+                 placeholder="Search by project name" [(ngModel)]="searchByname" />
+                 <button *ngIf="rolename == 'pmo'"  pButton pRipple label="Add project"
+                  icon="pi pi-plus" class="p-button-primary ml-2"
+                 (click)="openNew()"></button>
+                 <!-- (input)="dt1.filterGlobal($event.target.value, 'contains')" -->
+            </span>
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="min-width:12rem">
+                <div class="flex align-items-center">
+                    Project Name
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:16rem">
+                <div class="flex align-items-center">
+                   Project Description
+                    <p-columnFilter type="text" field="country.name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+             <th style="min-width:12rem">
+                <div class="flex align-items-center">
+                   Project Domain
+                    <p-columnFilter type="text" field="country.name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+
+            <th style="min-width:12rem">
+                <div class="flex align-items-center">
+                  Project Nature
+                    <p-columnFilter type="date" field="date" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:11rem">
+                <div class="flex align-items-center">
+                    Project Sponsor
+                    <p-columnFilter type="numeric" field="balance"
+                    display="menu" currency="USD"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:12rem">
+                <div class="flex align-items-center">
+                    Start Date
+                    <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
+                </div>
+            </th>
+             <th style="min-width:12rem">
+                <div class="flex align-items-center">
+                    End Date
+                    <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
+                </div>
+            </th>
+              <th style="min-width:18rem">
+                <div class="flex align-items-center">
+                   Action
+                    <p-columnFilter type="numeric" field="balance" display="menu" currency="USD">
+
+                    </p-columnFilter>
+                </div>
+            </th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-project>
+        <tr *ngIf="project.projectName.toUpperCase().includes(searchByname.toUpperCase())">
+            <td>
+                {{ project.projectName }}
+            </td>
+            <td>
+              {{ project.projectDescription }}
+            </td>
+            <td>
+              {{ project.domain }}
+
+            </td>
+            <td>
+              {{ project.nature }}
+            </td>
+            <td>
+              {{ project.sponsor }}
+            </td>
+            <td> {{ project.startDate | date: 'MM/dd/yyyy' }}</td>
+            <td> {{ project.endDate | date: 'MM/dd/yyyy' }}</td>
+            <td>
+              <div  style="display: flex">
+                <!-- <span *ngIf="project.user != null" class="alert alert-success">
+                  Assigned to <strong>{{project.user?.userName}}</strong></span> -->
+                  <button pButton pRipple class="p-button-success"
+                   *ngIf="project.user != null"
+                  [disabled]="true"
+                  label="Assigned"
+                 > </button>
+                  <button pButton pRipple class="p-button-danger"
+                  [disabled]="true" *ngIf="project.user == null && rolename == 'Admin'"
+                  label="Not_assigned"
+                 > </button>
+               <button pButton pRipple *ngIf="project.user == null && rolename == 'pmo'"
+                icon="pi pi-external-link"
+               label="Assign"
+               (click)="openAssignModal(project)">
+              </button>
+
+               <!-- <button  pButton pRipple label="Delete" icon="pi pi-trash"
+               class="p-button-danger ml-2"></button> -->
+
+                <button  pButton pRipple label="Details" [routerLink]="['../project', project.projectId]" icon="pi pi-info-circle"
+               class="p-button-secondary ml-2"></button>
+              </div>
+            </td>
+
+
+          </tr>
+
+          <ng-template pTemplate="emptymessage" *ngIf="projects.length == 0 ">
+              <tr>
+                  <td colspan="7">No projects found.</td>
+              </tr>
+          </ng-template>
+            <p-dialog [header]=" 'Assign ' +assignProject.projectName"
+            [(visible)]="assignModalOpened"
+            [style]="{ width: '37vw',height:'17vw' }">
+              <div class="flex py-2 justify-content-center mt-3">
+                <p-dropdown *ngIf="assignModalOpened"
+                [(ngModel)]="selectedUser"
+                [options]="lits_pms"
+                optionLabel="userFirstName"
+                placeholder="Select a PM">
+            </p-dropdown>
+            <p-button class="ml-2" *ngIf="assignModalOpened" label="Confirm" (onClick)="assignProjectToUser(selectedUser.userName, project.projectId)" autoFocus></p-button>
+
+
+    <!-- <p-button class="ml-2" label="Add Step" (click)="addStepClicked(project)"></p-button> -->
+    <!-- <p-button class="ml-2" label="Steps List" (onClick)="toggleStepsView(project.projectId)"></p-button>
+
+    <div *ngIf="isStepsViewed(project.projectId)">
+        <div *ngFor="let step of project.steps">
+            <p>{{ step.name }}</p>
+            <p>{{ step.startDate | date: 'MM/dd/yyyy' }}</p>
+            <p>{{ step.endDate | date: 'MM/dd/yyyy' }}</p>
+        </div>
+    </div> -->
+    </div>
+    <div class="row ml-1" style="margin-top: 50px;" *ngIf="projectBeingEdited === project.projectId">
+
+        <form (ngSubmit)="onSubmitStepForm()">
+            <input class="mr-2" pInputText [(ngModel)]="step.name" name="name" placeholder="Step Name"
+            required />
+
+
+            <p-calendar class="mr-2" [(ngModel)]="step.startDate" name="startDate"
+            [showIcon]="true"></p-calendar>
+            <p-calendar class="mr-2" [(ngModel)]="step.endDate"
+             name="endDate" [showIcon]="true">
+            </p-calendar>
+
+            <!-- <p-button style="" type="submit" label="A" ></p-button> -->
+            <button class="btn btn-primary mb-1" style="height: 41px; width: 70px;"  type="submit" label="A" >Add
+            </button>
+
+        </form>
+    </div>
+
+          </p-dialog>
+
+    </ng-template>
+
+
+</p-table>
+</div>
+<form #projectForm="ngForm">
+  <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Project details"
+   [modal]="true"
+      class="p-fluid">
+      <ng-template pTemplate="content">
+          <!-- <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image"> -->
+          <div class="field">
+              <label for="name">Project name :</label>
+              <input type="text" pInputText id="name"
+              required [(ngModel)]="project.projectName" name="projectName"
+                  name="projectName" />
+              <small *ngIf="projectForm.submitted && !project.projectName"
+              class="ng-dirty ng-invalid text-danger font-medium">Name is required.</small>
+          </div>
+          <div class="field">
+              <label for="description">Project description :</label>
+              <textarea id="description" pInputTextarea required rows="3" cols="20"
+                  [(ngModel)]="project.projectDescription" name="projectDescription"
+                  name="projectDescription"></textarea>
+                  <small *ngIf="projectForm.submitted && !project.projectDescription"
+                  class="ng-dirty ng-invalid text-danger font-medium">
+                  Description is required.</small>
+          </div>
+          <div class="field">
+              <label for="name">Sponsor :</label>
+              <input type="text" pInputText id="sponsor" required
+               [(ngModel)]="project.sponsor" name="sponsor" />
+               <small *ngIf="projectForm.submitted && !project.sponsor"
+               class="ng-dirty ng-invalid text-danger font-medium">
+               Sponsor is required.</small>
+
+          </div>
+          <div class="field">
+              <label for="name">Domain :</label>
+              <input type="text" pInputText id="domain" required [(ngModel)]="project.domain" name="domain" />
+              <small *ngIf="projectForm.submitted && !project.domain"
+              class="ng-dirty ng-invalid text-danger font-medium">
+              Domain is required.</small>
+          </div>
+          <div class="field">
+              <label for="name">Nature :</label>
+              <input type="text" pInputText id="nature" required [(ngModel)]="project.nature" name="nature" />
+              <small *ngIf="projectForm.submitted && !project.nature"
+              class="ng-dirty ng-invalid text-danger font-medium">
+              Nature is required.</small>          </div>
+          <div class="field">
+
+                <label for="calendar">Date debut:</label>
+                  <p-calendar inputId="dated" dateFormat="dd/mm/yy"
+                  [(ngModel)]="project.startDate" type="date" [showIcon]="true"
+                   name="startDate"></p-calendar>
+                   <!-- <p-calendar [(ngModel)]="project.startDate" [showIcon]="true"></p-calendar> -->
+                   <small *ngIf="projectForm.submitted && !project.startDate"
+                   class="ng-dirty ng-invalid text-danger font-medium">
+                   startDate is required.</small>
+          </div>
+          <div class="field">
+
+            <label for="calendar">Date fin:</label>
+              <p-calendar inputId="dated" type="date" dateFormat="dd/mm/yy"  [(ngModel)]="project.endDate"
+              [showIcon]="true"
+               name="endDate"></p-calendar>
+               <small *ngIf="projectForm.submitted && !project.endDate"
+               class="ng-dirty ng-invalid text-danger font-medium">
+               EndDate is required.</small>
+               <span class="mt-2 text-danger" *ngIf="ErrorExist">StartDate must be lower to EndDate</span>
+               <!-- <p-calendar [(ngModel)]="project.startDate" [showIcon]="true"></p-calendar> -->
+
+      </div>
+
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+              (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+              (click)="addProject(projectForm)" (click)="showSuccessViaMessages()"></button>
+      </ng-template>
+      <div class="flex flex-wrap gap-2">
+          <p-messages [value]="msgs" *ngIf="successMessage"></p-messages>
+      </div>
+  </p-dialog>
+
+
+
+
+
+
+
+</form>

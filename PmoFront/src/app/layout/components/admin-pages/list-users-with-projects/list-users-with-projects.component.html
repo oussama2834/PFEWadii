@@ -1,0 +1,17 @@
+<div *ngFor="let role of roles">
+    <h2>{{ role }}</h2>
+
+    <div *ngFor="let user of users">
+        <div *ngIf="userHasRole(user, role)">
+            <h3>{{ user.userFirstName }} {{ user.userLastName }}</h3>
+
+            <p-accordion>
+                <p-accordionTab header="Projects">
+                    <ul>
+                        <li *ngFor="let project of user.projects">{{ project.projectName }}</li>
+                    </ul>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+    </div>
+</div>

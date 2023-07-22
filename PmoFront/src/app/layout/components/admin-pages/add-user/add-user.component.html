@@ -1,0 +1,212 @@
+
+
+
+<!-- <p-card header="Add new user :" [style]="{ width: '1130px' }">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="margin-left: 370px;">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="custom-mt-form">
+    <div class="field col-12 md:col-4 ">
+      <span class="p-float-label" >
+        <input type="text"  style="width: 400px;" id="userFirstName" pInputText formControlName="userFirstName">
+        <label for="userFirstName">First name:</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-4">
+      <span class="p-float-label">
+        <input type="text" style="width: 300px;" id="userLastName" pInputText formControlName="userLastName">
+        <label for="userLastName">Last name:</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-4">
+      <span class="p-float-label">
+        <input type="text" style="width: 300px;" id="userName" pInputText formControlName="userName">
+        <label for="userName">Username:</label>
+      </span>
+    </div>
+   </div>
+   </div>
+
+
+    <div class="field col-12 md:col-4">
+      <span class="p-float-label">
+        <input type="text" style="width: 300px;" id="userEmail" pInputText formControlName="userEmail">
+        <label for="userEmail">Email:</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-4">
+      <span class="p-float-label">
+        <input type="password" style="width: 300px;" id="userPassword" pInputText
+        formControlName="userPassword">
+        <label for="userPassword">Password:</label>
+      </span>
+    </div>
+
+    <div class="field col-12 md:col-4">
+      <label for="roleName">Role:</label>
+      <select id="roleName" style="width: 300px;" formControlName="roleName">
+        <option *ngFor="let role of roles" [value]="role.roleName">{{ role.roleName }}</option>
+      </select>
+    </div>
+
+
+    <button type="submit" pButton pRipple [disabled]="userForm.invalid" label="Create user"
+      class="p-button-danger"></button>
+  </form>
+</p-card> -->
+
+
+ <div class="page-content">
+  <div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <h4>Add new user</h4>
+    <hr>
+    <!-- <div class="card-header">
+     <h6>Add new user</h6>
+    </div> -->
+ <form [formGroup]="userForm" (ngSubmit)="onSubmit()"  #f ="ngForm">
+  <div class="card-body">
+  <div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+  <div class="custom-mt-form">
+  <div class="form-group">
+    <label for="userFirstName">Firstname</label>
+    <div  >
+      <input type="text" placeholder="Firstname"  style="width: 400px;"
+      pInputText formControlName="userFirstName">
+    </div>
+    <div class="alert alert-danger mt-2" style="width: 400px;" *ngIf=" userForm.get('userFirstName')?.invalid
+     && (userForm.get('userFirstName')?.dirty || userForm.get('userFirstName')?.touched || f.submitted )">
+      <div> Firstname is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="userLastName">Lastname</label>
+    <div>
+      <!-- <label for="userLastName">Lastname</label> -->
+      <input type="text"  placeholder="Lastname"  style="width: 400px;" id="userLastName"
+      pInputText formControlName="userLastName">
+    </div>
+    <div class="alert alert-danger mt-2"
+    style="width: 400px;" *ngIf=" userForm.get('userLastName')?.invalid
+     && (userForm.get('userLastName')?.dirty || userForm.get('userLastName')?.touched || f.submitted )">
+      <div> Lastname is required</div>
+  </div>
+  </div>
+  <div class="form-group">
+    <label for="userName">UserName</label>
+    <div>
+      <input type="text" placeholder="Username" style="width: 400px;" id="userName"
+      pInputText formControlName="userName">
+    </div>
+    <div *ngIf="Exists">
+
+      <span  class="text-danger mt-4">user already taken</span>
+    </div>
+    <div class="alert alert-danger mt-2"
+    style="width: 400px;" *ngIf=" userForm.get('userName')?.invalid
+     && (userForm.get('userName')?.dirty || userForm.get('userName')?.touched
+     || f.submitted )">
+      <div> Username is required</div>
+  </div>
+
+  </div>
+  </div>
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+  <div class="custom-mt-form">
+    <div class="form-group">
+      <label for="userName">UserEmail</label>
+      <div>
+        <input type="text" placeholder="UserEmail"  style="width: 400px;" id="userEmail"
+        pInputText formControlName="userEmail">
+      </div>
+      <div class="alert alert-danger mt-2"
+      style="width: 400px;" *ngIf=" userForm.get('userEmail')?.invalid
+       && (userForm.get('userEmail')?.dirty || userForm.get('userEmail')?.touched
+       || f.submitted )">
+        <div> UserEmail is required</div>
+    </div>
+    </div>
+    <div class="form-group">
+      <label for="userName">UserPassword</label>
+      <div>
+        <input type="password"  placeholder="UserPassword"  style="width: 400px;" id="userPassword"
+        pInputText formControlName="userPassword">
+      </div>
+      <div class="alert alert-danger mt-2"
+      style="width: 400px;" *ngIf=" userForm.get('userPassword')?.invalid
+       && (userForm.get('userPassword')?.dirty || userForm.get('userPassword')?.touched
+       || f.submitted )">
+        <div> Userpassword is required</div>
+    </div>
+    </div>
+  <div class="form-group">
+    <label for="userName">Role</label>
+<div class="input-group form-group" style="width: 400px;">
+<!-- <select class="custom-select" id="inputGroupSelect03" style="width: 400px;" formControlName="user"
+aria-label="Example select with button addon" >
+  <option selected >.....Sélectionner un utilisateur...</option>
+  <option *ngFor="let user of users" [ngValue]="user" >{{user.userName}}</option>
+
+</select> -->
+<select id="roleName"  class="custom-select" id="inputGroupSelect02"
+style="height: 43px;"
+ formControlName="roleName">
+  <option *ngFor="let role of roles" [value]="role.roleName">{{ role.roleName }}</option>
+</select>
+<div class="alert alert-danger mt-2"
+style="width: 400px;" *ngIf=" userForm.get('roleName')?.invalid
+ && (userForm.get('roleName')?.dirty || userForm.get('roleName')?.touched
+ || f.submitted )">
+  <div> Rolename is required</div>
+</div>
+</div>
+</div>
+  </div>
+  </div>
+
+  </div>
+  </div>
+  <div class="form-group text-right custom-mt-form-group" >
+    <button class="btn btn-success mr-2" style="margin-top: 20px; margin-left: 20px;"
+      pButton pRipple type="submit"  >
+      <div *ngIf="ActiveSpinner && !Exists" class="spinner-border text-white mr-2" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      Create user</button>
+
+
+    </div>
+</form>
+  </div>
+  </div>
+  </div>
+  </div>
+  <br>
+  <div class="card">
+    <p-table [value]="users" [tableStyle]="{ 'min-width': '52rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.userName }}</td>
+                <td>{{ user.userFirstName }}</td>
+                <td>{{ user.userLastName }}</td>
+                <td *ngFor="let role of user.role">{{ role.roleName }}</td>
+                <td>
+                  <button pButton pRipple type="button"
+                  (click)="onDelete(user.userName)" label="Delete" class="p-button-outlined p-button-secondary"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
